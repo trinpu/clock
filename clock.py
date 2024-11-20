@@ -3,8 +3,7 @@ import time
 from random import randint
 
 def create_clock(n_hour_marks, hour_mark_shape, turtle_min_shape_size, turtle_max_shape_size, pen_color, fill_color, hour_hand_size_min, hour_hand_size_max, hour_mark_heading):
-    """Creates a clock of hour marks, return a list with clock wise turtles positioned as the hour marks"""
-
+    """Creates a clock of as a list of N hour marks - hour hand and mark size can be of different size"""
     hour_mark_angle_size = 360 / n_hour_marks
     hour_marks = []
 
