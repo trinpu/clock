@@ -26,41 +26,15 @@ def create_clock(n_hour_marks, hour_mark_shape, turtle_min_shape_size, turtle_ma
     return hour_marks
 
 
-def start_counting_orb(clock, starting_mark, n_counts, pen_color, fill_color, delete_color, jump_forward_count, delete_backward_count, time_lag, clockwise=True):
-    colored_mark_index = starting_mark
-    for second in range(n_counts):
-        # delete logic
-        # if clockwise:
-        #     deleted_mark_index = (colored_mark_index - delete_backward_count) % n_hour_marks
-        # else:
-        #     deleted_mark_index = (colored_mark_index + delete_backward_count) % n_hour_marks
-
-        # clock[deleted_mark_index].color(pen_color, delete_color)
-
-        # color logic
-        clock[colored_mark_index % n_hour_marks].color(pen_color, fill_color)
-        if clockwise:
-            colored_mark_index += jump_forward_count
-        else:   
-            colored_mark_index -= jump_forward_count
-
-        time.sleep(time_lag)
-    
-    if clockwise:
-        return colored_mark_index - 1
-    else:
-        return colored_mark_index + 1
-
-## core behaviours
-def bouncing_clock():
-    """A colored hour mark counting forward and backwards"""
-    colored_mark = start_counting_orb(clock, starting_mark, 12, pen_color, fill_color, delete_color, 1, 1, 0.3)
-    colored_mark = start_counting_orb(clock, colored_mark, 12, pen_color, fill_color, delete_color, 1, 1, 0.3, False)
-    colored_mark = start_counting_orb(clock, colored_mark, 12, pen_color, fill_color, delete_color, 1, 1, 0.3)
+def color_orb(clock, orb_index, pen_color, fill_color, time_lag):
+    """Does some kind of coloring. Could be renamded to make things, easier to maintain"""
+    n_hour_marks = len(clock)
+    clock[orb_index % n_hour_marks].color(pen_color, fill_color)
+    time.sleep(time_lag)
 
 
 def walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, coloring_lag=0, continuous=True):
-    """Create three obs one by one. Orbs walk forward by 1 step lasting n seconds (pulse duration)"""
+    """Create obs one by one. Orbs walk forward by 1 step lasting n seconds (pulse duration)"""
 
     # For this version I assume that the orb_colors < n_hour_marks
     n_hour_marks = len(clock)
@@ -85,9 +59,10 @@ def walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, colo
             orbs_created = len(orbs_colors)
 
         delete_backward_count = orbs_created + 1
+
         # create orbs
         for orb in range(orbs_created):
-            start_counting_orb(clock, moving_flag_index[orb], 1, pen_color, orbs_colors[orb], delete_color, step_forward, delete_backward_count, coloring_lag)
+            color_orb(clock, moving_flag_index[orb], pen_color, orbs_colors[orb], coloring_lag)
         
         # pause
         time.sleep(pulse_duration)
@@ -125,10 +100,10 @@ n_hour_marks = 12
 hour_mark_heading = 90
 
 hour_hand_size_min = 100
-hour_hand_size_max = hour_hand_size_min + 300
+hour_hand_size_max = hour_hand_size_min # + 300
 
 turtle_min_shape_size = 2
-turtle_max_shape_size = turtle_min_shape_size + 3
+turtle_max_shape_size = turtle_min_shape_size # + 3
 
 starting_mark = 12
 
@@ -138,15 +113,22 @@ clock = create_clock(n_hour_marks, "circle", turtle_min_shape_size, turtle_max_s
 step_forward = 1
 orbs_colors = ["red"]
 orbs_colors = ["red","white","green"]
-orbs_colors = ["yellow", "white", "#faf6eb", "#efe5c2", "#e5d39a", "#dac271","#d0b049", "#b6972f", "#8e7525", "#65541a","#3d3210","#141105"]
+orbs_colors = ["yellow", "white", "#faf6eb"] #, "#efe5c2", "#e5d39a", "#dac271","#d0b049", "#b6972f", "#8e7525", "#65541a","#3d3210","#141105"]
 n_steps = len(orbs_colors) * 3
 pulse_duration = 1
 time_lag = 0
 
 assert walking_orbs(clock, range(30), n_steps, step_forward, pulse_duration, time_lag, continuous=False) == "too many colors"
-assert walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, time_lag, continuous=True) == 1    
+assert walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, time_lag, continuous=False) == 1    
 
 canvas.mainloop()
 
     
 
+
+## core behaviours
+# def bouncing_clock():
+#     """A colored hour mark counting forward and backwards"""
+#     colored_mark = color_orb(clock, starting_mark, 12, pen_color, fill_color, delete_color, 1, 1, 0.3)
+#     colored_mark = color_orb(clock, colored_mark, 12, pen_color, fill_color, delete_color, 1, 1, 0.3, False)
+#     colored_mark = color_orb(clock, colored_mark, 12, pen_color, fill_color, delete_color, 1, 1, 0.3)
