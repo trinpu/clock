@@ -27,7 +27,7 @@ def create_clock(n_hour_marks, hour_mark_shape, turtle_min_shape_size, turtle_ma
 
 
 def color_orb(clock, orb_index, pen_color, fill_color, time_lag):
-    """Does some kind of coloring. Could be renamded to make things, easier to maintain"""
+    """Color orb in a clock at orb_index"""
     n_hour_marks = len(clock)
     clock[orb_index % n_hour_marks].color(pen_color, fill_color)
     time.sleep(time_lag)
@@ -70,6 +70,7 @@ def change_orb_outline_color(clock:list, pen_color:str):
     """Change the pen color of each orb in a clock"""
     for orb in clock:
         orb.pencolor(pen_color)
+        
     return 1
 
 # color settings
