@@ -38,17 +38,18 @@ def walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, colo
 
     # For this version I assume that the orb_colors < n_hour_marks
     n_hour_marks = len(clock)
-    if len(orbs_colors) > n_hour_marks:
-        return "too many colors"
+    n_orbs_colors = len(orbs_colors)
+    
+    if n_orbs_colors > n_hour_marks:
+        return "too many colors" # I could use a cut off logic here
 
-    # orbs settings
-    tail_indexes = [n_hour_marks - x for x in range(1, len(orbs_colors))]
-    moving_flag_index = [0]
-    moving_flag_index.extend(tail_indexes)
+    colored_orbes_indexes = [0]
+    tail_indexes = [n_hour_marks - x for x in range(1, n_orbs_colors)]
+    colored_orbes_indexes.extend(tail_indexes)
 
     # walking settings
     orbs_created = 0
-    orbs_creation_cutoff = len(orbs_colors) - 1
+    orbs_creation_cutoff = n_orbs_colors - 1
 
     # walking behaviour
     for count in range(n_steps):
@@ -56,13 +57,11 @@ def walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, colo
         if count < orbs_creation_cutoff:
             orbs_created += 1
         else:
-            orbs_created = len(orbs_colors)
-
-        delete_backward_count = orbs_created + 1
+            orbs_created = n_orbs_colors
 
         # create orbs
         for orb in range(orbs_created):
-            color_orb(clock, moving_flag_index[orb], pen_color, orbs_colors[orb], coloring_lag)
+            color_orb(clock, colored_orbes_indexes[orb], pen_color, orbs_colors[orb], coloring_lag)
         
         # pause
         time.sleep(pulse_duration)
@@ -72,9 +71,9 @@ def walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, colo
             for orb in range(n_hour_marks):
                 clock[orb].fillcolor(delete_color)
         
-        # update orb index
-        for orb in range(len(orbs_colors)):
-            moving_flag_index[orb] += 1
+        # update colored orbs state
+        for orb in range(n_orbs_colors):
+            colored_orbes_indexes[orb] += 1
     
     return 1
 
