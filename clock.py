@@ -39,7 +39,7 @@ def walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, colo
     # For this version I assume that the orb_colors < n_hour_marks
     n_hour_marks = len(clock)
     n_orbs_colors = len(orbs_colors)
-    
+
     if n_orbs_colors > n_hour_marks:
         return "too many colors" # I could use a cut off logic here
 
@@ -68,12 +68,15 @@ def walking_orbs(clock, orbs_colors, n_steps, step_forward, pulse_duration, colo
 
         # delete created orbs
         if continuous != True:
-            for orb in range(n_hour_marks):
-                clock[orb].fillcolor(delete_color)
+            # for orb in range(n_hour_marks):
+            #     clock[orb].fillcolor(delete_color)
+
+            for orb_index in colored_orbes_indexes:
+                clock[orb_index].fillcolor(delete_color)
         
         # update colored orbs state
-        for orb in range(n_orbs_colors):
-            colored_orbes_indexes[orb] += 1
+        for orb_index in range(n_orbs_colors):
+            colored_orbes_indexes[orb_index] = (colored_orbes_indexes[orb_index] + 1) % n_hour_marks
     
     return 1
 
