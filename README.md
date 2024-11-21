@@ -12,3 +12,26 @@ These reflections prompted me to build a clock. One that starts with a standard 
 
 * Python
 * Turtle Module
+
+## Installation and execution
+
+### Prerequisites
+
+* Python 3 - here is the download [link](https://python.org/downloads)
+* Git - here is the download [link](https://git-scm.com/downloads)
+
+### Installation
+```bash
+# download the repository
+git clone https://github.com/trinpu/clock.git
+
+# navigate to the new repository
+cd clock
+```
+
+### Execution
+```bash
+# run the application for the clock directory
+python3 clock.py
+
+```
